@@ -1,0 +1,31 @@
+<%- include('partials/header') %>
+<div class="container mt-4">
+  <h2>Lista de Alunos</h2>
+  <form action="/cartao/upload" method="post" enctype="multipart/form-data" class="mb-3">
+    <input type="file" name="jsonFile" accept=".json" required>
+    <button type="submit" class="btn btn-primary">Enviar Cartão Resposta</button>
+  </form>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Código</th>
+        <th>Nível</th>
+        <th>Ver</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% alunos.forEach(aluno => { %>
+        <tr>
+          <td><%= aluno.id_aluno %></td>
+          <td><%= aluno.nome %></td>
+          <td><%= aluno.codigo %></td>
+          <td><%= aluno.nivel_prova %></td>
+          <td><a href="/alunos/<%= aluno.id_aluno %>" class="btn btn-sm btn-info">Ver</a></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<%- include('partials/footer') %>
