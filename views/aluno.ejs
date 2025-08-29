@@ -59,8 +59,16 @@
   <!-- Conteúdo -->
   <div class="container my-5">
     <div class="card p-4">
+      <h2 class="mb-3">🏫 Escola: <%= escola.nome %></h2>
+      <p><strong>Email:</strong> <%= escola.email %></p>
+      <p><strong>INEP:</strong> <%= escola.inep %></p>
+      <p><strong>Área:</strong> <span class="badge bg-primary"><%= escola.area %></span></p>
+     
+    </div>
+    <br>
+    <div class="card p-4">
       <h2 class="mb-4">👤 Dados do Aluno</h2>
-
+      
       <p><span class="info-label">Nome:</span> <%= aluno.nome %></p>
       <p><span class="info-label">Código:</span> <%= aluno.codigo %></p>
       <p><span class="info-label">Nível da Prova:</span> <%= aluno.nivel_prova %></p>
