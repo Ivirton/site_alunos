@@ -3,6 +3,8 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
 
+const dotenv = require('dotenv');
+dotenv.config();
 const cors = require('cors');
 const alunoRoutes = require("./routes/alunoRoutes");
 const escolaRoutes = require("./routes/escolaRoutes");
@@ -39,5 +41,7 @@ app.use(express.static(frontendPath));
 //     res.sendFile('index.html', { root: frontendPath });
 // });
 
-const PORT = 80;
-app.listen(PORT, () => console.log(`Servidor rodando em http://localhost:${PORT}`));
+const port = process.env.PORT || 80;
+app.listen(port, () => {
+    console.log(`Servidor rodando na porta: ${port}`);
+});
