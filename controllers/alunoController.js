@@ -1,20 +1,27 @@
 const Aluno = require("../models/alunoModel");
+const Escola = require("../models/escolaModel");
+
 const db = require("../config/db");
 
 exports.listarAlunos = (req, res) => {
   Aluno.listar((err, alunos) => {
+
     if (err) return res.status(500).send("Erro ao buscar alunos");
     res.render("alunos", { alunos });
+    // res.json(alunos);
   });
 };
 
 exports.verAluno = (req, res) => {
   const id = req.params.id;
   Aluno.buscarPorId(id, (err, aluno) => {
-    if (err) return res.status(500).send("Erro ao buscar aluno");
-    db.get("SELECT * FROM CartaoResposta WHERE id_aluno = ?", [id], (err2, cartao) => {
+   
+    db.get("SELECT * FROM Escola WHERE id_escola = ?", [aluno.id_escola], (err2, escola) => {
       if (err2) return res.status(500).send("Erro ao buscar cartão resposta");
-      res.render("aluno", { aluno, cartao });
+      res.render("aluno", { aluno, escola });
     });
+
+
+    // res.json({ aluno})
   });
 };

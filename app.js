@@ -3,9 +3,11 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
 
+const cors = require('cors');
 const alunoRoutes = require("./routes/alunoRoutes");
 const escolaRoutes = require("./routes/escolaRoutes");
-const cartaoRespostaRoutes = require("./routes/cartaoRespostaRoutes");
+// const cartaoRespostaRoutes = require("./routes/cartaoRespostaRoutes");
+
 
 const app = express();
 app.set("view engine", "ejs");
@@ -14,16 +16,28 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors());
 app.use(fileUpload());
 
 // Rotas principais
 app.use("/alunos", alunoRoutes);
-// app.use("/escolas", escolaRoutes);
+app.use("/escolas", escolaRoutes);
+app.use("/sobre", (req, res) => {
+  res.render("sobre");
+})
 // app.use("/cartao", cartaoRespostaRoutes);
+//Pasta do vue.js
+const frontendPath = path.join(__dirname, 'frontend/dist');
+app.use(express.static(frontendPath));
 
-app.get("/", (req, res) => {
-  res.render("index", { title: "Sistema de Correção" });
-});
 
-const PORT = 3000;
+// app.get("/", (req, res) => {
+//   res.render("index", { title: "Sistema de Correção" });
+// });
+//Destina todas as rotas para o vue.js
+// app.get('*', (req, res) => {
+//     res.sendFile('index.html', { root: frontendPath });
+// });
+
+const PORT = 80;
 app.listen(PORT, () => console.log(`Servidor rodando em http://localhost:${PORT}`));

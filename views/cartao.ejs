@@ -1,0 +1,71 @@
+<%- include('partials/header') %>
+<div class="container mt-4">
+  <h2>Cartão Resposta - Aluno: <%= cartao.aluno_nome %> (<%= cartao.aluno_codigo %>)</h2>
+
+  <% if(cartao.arquivo_imagem) { %>
+    <div class="mb-3">
+      <img src="/uploads/<%= cartao.arquivo_imagem %>" class="img-fluid border" alt="Cartão Resposta">
+    </div>
+  <% } %>
+
+  <p><strong>Total Acertos:</strong> <%= cartao.total_acertos %></p>
+  <p><strong>Total Erros:</strong> <%= cartao.total_erros %></p>
+  <p><strong>Total Anuladas:</strong> <%= cartao.anuladas %></p>
+
+  <h4>Detalhes das Questões</h4>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Questão</th>
+        <th>Resposta do Aluno</th>
+        <th>Resposta Correta</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% respostasDetalhes.forEach(r => { %>
+        <tr class="<%= r.status === 'correct' ? 'table-success' : r.status === 'wrong' ? 'table-danger' : 'table-warning' %>">
+          <td><%= r.questao %></td>
+          <td><%= r.resposta_aluno %></td>
+          <td><%= r.resposta_correta %></td>
+          <td><%= r.status %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<%- include('partials/footer') %>
+
+
+
+ <!-- <% if(cartao) { %>
+    <h4>Cartão Resposta</h4>
+    <p><strong>Total Acertos:</strong> <%= cartao.total_acertos %></p>
+    <p><strong>Total Erros:</strong> <%= cartao.total_erros %></p>
+    <p><strong>Total Anuladas:</strong> <%= cartao.anuladas %></p>
+
+    <h5>Detalhes das Questões</h5>
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>Questão</th>
+          <th>Resposta do Aluno</th>
+          <th>Resposta Correta</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% respostasDetalhes.forEach(r => { %>
+          <tr class="<%= r.status === 'correct' ? 'table-success' : r.status === 'wrong' ? 'table-danger' : 'table-warning' %>">
+            <td><%= r.questao %></td>
+            <td><%= r.resposta_aluno %></td>
+            <td><%= r.resposta_correta %></td>
+            <td><%= r.status %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <p>Este aluno ainda não possui cartão resposta.</p>
+  <% } %>
+</div> -->

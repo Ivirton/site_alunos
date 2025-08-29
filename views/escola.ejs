@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <title>Escola - <%= escola.nome %></title>
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    h2, h4 {
+      color: #2c3e50;
+    }
+
+    .card {
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    table {
+      border-radius: 10px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <div class="container">
+      <a class="navbar-brand" href="/">🏆 Olimpíadas de Matemática - Caxias-MA</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Menu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="/escolas">Escolas</a></li>
+          <li class="nav-item"><a class="nav-link" href="/alunos">Alunos</a></li>
+          <li class="nav-item"><a class="nav-link active" href="/sobre">Sobre</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Conteúdo -->
+  <div class="container my-5">
+    <div class="card p-4">
+      <h2 class="mb-3">🏫 Escola: <%= escola.nome %></h2>
+      <p><strong>Email:</strong> <%= escola.email %></p>
+      <p><strong>INEP:</strong> <%= escola.inep %></p>
+      <p><strong>Área:</strong> <span class="badge bg-primary"><%= escola.area %></span></p>
+      <p><strong>Total de alunos:</strong> <span class="badge bg-success"><%= totalAlunos %></span></p>
+    </div>
+
+    <hr class="my-4">
+
+    <!-- Professores -->
+    <h4 class="mb-3">👨‍🏫 Professores</h4>
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>Nome</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% professores.forEach(prof=> { %>
+            <tr>
+             
+              <td><%= prof.nome %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="my-4">
+
+    <!-- Alunos Nível Alfa -->
+    <h4 class="mb-3">🎯 Alunos - Nível Alfa</h4>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover align-middle">
+        <thead class="table-secondary">
+          <tr>
+            <th>Nome</th>
+            <th>Código</th>
+            <th>Ver</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% alunosAlfa.forEach(aluno=> { %>
+            <tr>
+              <td><%= aluno.nome %></td>
+              <td><%= aluno.codigo %></td>
+              <td><a href="/alunos/<%= aluno.id_aluno %>" class="btn btn-sm btn-outline-primary">🔎 Ver</a></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="my-4">
+
+    <!-- Alunos Nível Beta -->
+    <h4 class="mb-3">🎯 Alunos - Nível Beta</h4>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover align-middle">
+        <thead class="table-secondary">
+          <tr>
+            
+            <th>Nome</th>
+            <th>Código</th>
+            <th>Ver</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% alunosBeta.forEach(aluno=> { %>
+            <tr>
+             
+              <td><%= aluno.nome %></td>
+              <td><%= aluno.codigo %></td>
+              <td><a href="/alunos/<%= aluno.id_aluno %>" class="btn btn-sm btn-outline-primary">🔎 Ver</a></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

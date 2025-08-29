@@ -1,31 +1,82 @@
-<%- include('partials/header') %>
-<div class="container mt-4">
-  <h2>Lista de Alunos</h2>
-  <form action="/cartao/upload" method="post" enctype="multipart/form-data" class="mb-3">
-    <input type="file" name="jsonFile" accept=".json" required>
-    <button type="submit" class="btn btn-primary">Enviar Cartão Resposta</button>
-  </form>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nome</th>
-        <th>Código</th>
-        <th>Nível</th>
-        <th>Ver</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% alunos.forEach(aluno => { %>
-        <tr>
-          <td><%= aluno.id_aluno %></td>
-          <td><%= aluno.nome %></td>
-          <td><%= aluno.codigo %></td>
-          <td><%= aluno.nivel_prova %></td>
-          <td><a href="/alunos/<%= aluno.id_aluno %>" class="btn btn-sm btn-info">Ver</a></td>
-        </tr>
-      <% }) %>
-    </tbody>
-  </table>
-</div>
-<%- include('partials/footer') %>
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <title>Aluno - Olimpíadas de Matemática</title>
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    h2, h4 {
+      color: #2c3e50;
+    }
+
+    .card {
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .info-label {
+      font-weight: bold;
+      color: #555;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <div class="container">
+      <a class="navbar-brand" href="/">🏆 Olimpíadas de Matemática - Caxias-MA</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Menu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="/escolas">Escolas</a></li>
+          <li class="nav-item"><a class="nav-link active" href="/alunos">Alunos</a></li>
+          <li class="nav-item"><a class="nav-link active" href="/sobre">Sobre</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Conteúdo -->
+  <div class="container my-5">
+    <div class="card p-4">
+      <h2 class="mb-4">👤 Dados do Aluno</h2>
+
+      <p><span class="info-label">Nome:</span> <%= aluno.nome %></p>
+      <p><span class="info-label">Código:</span> <%= aluno.codigo %></p>
+      <p><span class="info-label">Nível da Prova:</span> <%= aluno.nivel_prova %></p>
+      <p><span class="info-label">Necessidade Especial:</span> <%= aluno.necessidade_especial %></p>
+      <% if (aluno.descricao_necessidade) { %>
+        <p><span class="info-label">Descrição:</span> <%= aluno.descricao_necessidade %></p>
+      <% } %>
+
+      <hr>
+      <h4 class="mb-3">📄 Cartão Resposta</h4>
+     
+    </div>
+  </div>
+
+  <!-- Bootstrap Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <%- include('partials/footer') %>
+</body>
+</html>
