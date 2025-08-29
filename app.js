@@ -27,19 +27,13 @@ app.use("/escolas", escolaRoutes);
 app.use("/sobre", (req, res) => {
   res.render("sobre");
 })
+app.use("/", (req, res) => {
+  res.render("index");
+})
 // app.use("/cartao", cartaoRespostaRoutes);
 //Pasta do vue.js
-const frontendPath = path.join(__dirname, 'frontend/dist');
-app.use(express.static(frontendPath));
 
 
-// app.get("/", (req, res) => {
-//   res.render("index", { title: "Sistema de Correção" });
-// });
-//Destina todas as rotas para o vue.js
-// app.get('*', (req, res) => {
-//     res.sendFile('index.html', { root: frontendPath });
-// });
 
 const port = process.env.PORT || 80;
 app.listen(port, () => {
