@@ -8,6 +8,9 @@ dotenv.config();
 const cors = require('cors');
 const alunoRoutes = require("./routes/alunoRoutes");
 const escolaRoutes = require("./routes/escolaRoutes");
+const homeRoutes = require("./routes/homeRoutes");  
+
+
 // const cartaoRespostaRoutes = require("./routes/cartaoRespostaRoutes");
 
 
@@ -24,12 +27,12 @@ app.use(fileUpload());
 // Rotas principais
 app.use("/alunos", alunoRoutes);
 app.use("/escolas", escolaRoutes);
+app.use("/", homeRoutes);  // Adiciona a rota do dashboard
+
 app.use("/sobre", (req, res) => {
   res.render("sobre");
 })
-app.use("/", (req, res) => {
-  res.render("index");
-})
+
 // app.use("/cartao", cartaoRespostaRoutes);
 //Pasta do vue.js
 

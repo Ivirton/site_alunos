@@ -64,15 +64,18 @@
       <div class="col-md-4">
         <div class="card card-summary">
           <h4>Total de Escolas</h4>
-          <h2>0</h2>
+          <h2> <%= totalEscolas %></h2>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card card-summary">
           <h4>Total de Alunos</h4>
-          <h2>0</h2>
+          <h2> <%= totalAlunos[0].total %></h2>
+          
+          
         </div>
       </div>
+      
       <div class="col-md-4">
         <div class="card card-summary">
           <h4>Cartões Processados</h4>
@@ -83,17 +86,37 @@
 
     <!-- Gráficos -->
     <div class="row">
-      <div class="col-md-6 mb-4">
-        <div class="card p-3">
-          <h5 class="text-center">Alunos por Escola</h5>
-          <canvas id="alunosEscolaChart"></canvas>
-        </div>
-      </div>
+      
 
       <div class="col-md-6 mb-4">
         <div class="card p-3">
           <h5 class="text-center">Distribuição por Nível da Prova</h5>
-          <canvas id="nivelProvaChart"></canvas>
+          <h4>Alfa: <%= qtdPorNivel[0]%> </h4>
+          <h4>Beta:<%= qtdPorNivel[1]%></h4>
+          
+        </div>
+      </div>
+      <div class="col-md-6 mb-4">
+        <div class="card p-3">
+          <h5 class="text-center">Alunos por Escola</h5>
+          <table class="table table-striped align-middle">
+           <thead>
+          <tr>
+           
+            <th>Nome</th>
+            <th>Quantidade</th>
+          </tr>
+        </thead>
+           <tbody>
+            
+          <%  for(i = 0; i < nomesEscolas.length;i++){  %>
+            <tr>
+              <td><%= nomesEscolas[i]%></td> 
+              <td><%= qtdAlunos[i]%></td> 
+            </tr>
+          <% } %>
+        </tbody>
+        </table>
         </div>
       </div>
     </div>
