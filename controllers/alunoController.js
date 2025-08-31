@@ -1,6 +1,7 @@
 const Aluno = require("../models/alunoModel");
 const Escola = require("../models/escolaModel");
-
+const fs = require('fs');
+const path = require('path');
 const db = require("../config/db");
 
 exports.listarAlunos = (req, res) => {
@@ -18,7 +19,10 @@ exports.verAluno = (req, res) => {
    
     db.get("SELECT * FROM Escola WHERE id_escola = ?", [aluno.id_escola], (err2, escola) => {
       if (err2) return res.status(500).send("Erro ao buscar cartão resposta");
-      res.render("aluno", { aluno, escola });
+      const filePath = path.join(__dirname, '../public/cartoes', `${aluno.codigo}.png`);
+      // const cartaoExiste = fs.existsSync(filePath);
+      // console.log(cartaoExiste);
+      res.render("aluno", { aluno, escola  });
     });
 
 
