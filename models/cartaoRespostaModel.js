@@ -8,8 +8,8 @@ class CartaoResposta {
     static buscarPorId(id, callback) {
         db.get("SELECT * FROM CartaoResposta WHERE id_cartao_resposta = ?", [id], callback);
     }
-    static buscarPorAluno(id_aluno, callback) {
-        db.get("SELECT * FROM CartaoResposta WHERE id_aluno = ?", [id_aluno], callback);
+    static buscarPorAluno(codigo, callback) {
+        db.get("SELECT * FROM CartaoResposta WHERE codigo = ?", [codigo], callback);
     }
     static criar(cartaoResposta, callback) {
         const { id_aluno, respostas } = cartaoResposta;
@@ -37,13 +37,10 @@ class CartaoResposta {
         });
     }
     static getTotal(callback) {
-        db.all("SELECT * FROM CartaoResposta", [], callback);
-
-        // db.get("SELECT COUNT(*) AS total FROM CartaoResposta", [], callback);
-        // // db.get("SELECT COUNT(*) AS total FROM CartaoResposta", [], (err, row) => {
-        // //     callback(err, row ? row.total : 0);
-        // // });
+         
+        db.all("SELECT COUNT(*) AS total FROM CartaoResposta", [], callback);
     }
+    
 
 }
 

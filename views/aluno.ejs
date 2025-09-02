@@ -20,8 +20,29 @@
       font-size: 1.2rem;
     }
 
-    h2, h4 {
+    .mb-2 {
+      margin-left: 4px;
+    }
+
+    h2,
+    h4 {
       color: #2c3e50;
+    }
+
+    .progress-bar-acertos {
+      width: 0%;
+    }
+
+    .progress-bar-erros {
+      width: 0%;
+    }
+
+    .progress-bar-anuladas {
+      width: 0%;
+    }
+
+    .progress-bar-embranco {
+      width: 0%;
     }
 
     .card {
@@ -34,6 +55,8 @@
       color: #555;
     }
   </style>
+
+
 </head>
 
 <body>
@@ -47,7 +70,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-           <li class="nav-item"><a class="nav-link active" href="/">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link active" href="/">Dashboard</a></li>
           <li class="nav-item"><a class="nav-link" href="/escolas">Escolas</a></li>
           <li class="nav-item"><a class="nav-link" href="/alunos">Alunos</a></li>
           <li class="nav-item"><a class="nav-link" href="/sobre">Sobre</a></li>
@@ -59,38 +82,140 @@
   <!-- Conteúdo -->
   <div class="container my-5">
     <div class="card p-4">
-      <h2 class="mb-3">🏫 Escola: <%= escola.nome %></h2>
-      <p><strong>Email:</strong> <%= escola.email %></p>
-      <p><strong>INEP:</strong> <%= escola.inep %></p>
-      <p><strong>Área:</strong> <span class="badge bg-primary"><%= escola.area %></span></p>
-     
+      <h2 class="mb-3">🏫 Escola: <%= escola.nome %>
+      </h2>
+      <p><strong>Email:</strong>
+        <%= escola.email %>
+      </p>
+      <p><strong>INEP:</strong>
+        <%= escola.inep %>
+      </p>
+      <p><strong>Área:</strong> <span class="badge bg-primary">
+          <%= escola.area %>
+        </span></p>
+
     </div>
     <br>
     <div class="card p-4">
       <h2 class="mb-4">👤 Dados do Aluno</h2>
-      
-      <p><span class="info-label">Nome:</span> <%= aluno.nome %></p>
-      <p><span class="info-label">Código:</span> <%= aluno.codigo %></p>
-      <p><span class="info-label">Nível da Prova:</span> <%= aluno.nivel_prova %></p>
-      <p><span class="info-label">Necessidade Especial:</span> <%= aluno.necessidade_especial %></p>
+
+      <p><span class="info-label">Nome:</span>
+        <%= aluno.nome %>
+      </p>
+      <!-- <p><span class="info-label">Código:</span> <%= aluno.codigo %></p> -->
+      <p><span class="info-label">Nível da Prova:</span>
+        <%= aluno.nivel_prova %>
+      </p>
+      <p><span class="info-label">Necessidade Especial:</span>
+        <%= aluno.necessidade_especial %>
+      </p>
       <% if (aluno.descricao_necessidade) { %>
-        <p><span class="info-label">Descrição:</span> <%= aluno.descricao_necessidade %></p>
-      <% } %>
+        <p><span class="info-label">Descrição:</span>
+          <%= aluno.descricao_necessidade %>
+        </p>
+        <% } %>
 
-      <hr>
-      <h4 class="mb-3">📄 Cartão Resposta</h4>
+          <hr>
+          <h4 class="mb-3">📄 Cartão Resposta</h4>
 
-       
-        <img src="/cartoes/<%= aluno.codigo %>.png" alt="Cartão Resposta" class="img-fluid">
+          <div style="display: flex; justify-content: center;align-items: center;">
+            
+              <% const totais=jason_questoes.totais; %>
+                <div class="col-md-2 mb-2">
+                  <div class="card bg-success text-white">
+                    <div class="card-body py-2">
+                      <h6>Acertos</h6>
+                      <p class="fs-4 mb-0">
+                        <%= totais.acertos %>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 mb-2">
+                  <div class="card bg-danger text-white">
+                    <div class="card-body py-2">
+                      <h6>Erros</h6>
+                      <p class="fs-4 mb-0">
+                        <%= totais.erros %>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 mb-2">
+                  <div class="card bg-secondary text-white">
+                    <div class="card-body py-2">
+                      <h6>Anuladas</h6>
+                      <p class="fs-4 mb-0">
+                        <%= totais.anuladas %>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 mb-2">
+                  <div class="card bg-info text-white">
+                    <div class="card-body py-2">
+                      <h6>Total</h6>
+                      <p class="fs-4 mb-0">
+                        <%= totais.total_questoes %>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+          </div>
+         
 
-     
-     
+
+            <div style="display: flex; flex-wrap: wrap; align-items: center;justify-content: center;">
+
+              
+                <table class="table table-bordered" style="">
+                  <thead>
+                    <tr>
+                      <th>Questão</th>
+                      <th>Marcada</th>
+                      <th>Correta</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% Object.entries(jason_questoes.questoes).forEach(([num, questao])=> { %>
+                      <tr class="<%= questao.status === 'acerto' ? 'table-success' : 
+                  questao.status === 'erro' ? 'table-danger' :
+                  questao.status === 'anulada' ? 'table-secondary' :
+                  questao.status === 'em_branco' ? 'table-warning' : '' %>">
+                        <td>
+                          <%= num %>
+                        </td>
+                        <td>
+                          <%= questao.marcada || '-' %>
+                        </td>
+                        <td>
+                          <%= questao.correta %>
+                        </td>
+                        <td>
+                          <%= questao.status %>
+                        </td>
+                      </tr>
+                      <% }) %>
+                  </tbody>
+                </table>
+                
+                  <img src="/cartoes/<%= aluno.codigo %>.png" alt="Cartão Resposta" class="img-fluid"
+                    style="border: 1px solid rgb(65, 61, 61);">
+
+            </div>
     </div>
+
+  </div>
   </div>
 
   <!-- Bootstrap Bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js">
+
+
+  </script>
 
   <%- include('partials/footer') %>
 </body>
+
 </html>
