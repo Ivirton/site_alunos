@@ -33,6 +33,13 @@
       border-radius: 10px;
       overflow: hidden;
     }
+
+    .textfield{
+      background-color: rgba(154, 154, 154, 0.01);
+      height: 35px;
+      width: 85%;
+      border-radius: 6px;
+    }
   </style>
 </head>
 
@@ -80,7 +87,6 @@
         <tbody>
           <% professores.forEach(prof=> { %>
             <tr>
-             
               <td><%= prof.nome %></td>
             </tr>
           <% }) %>
@@ -96,17 +102,28 @@
       <table class="table table-striped table-hover align-middle">
         <thead class="table-secondary">
           <tr>
-            <th>Nome</th>
+            <th class="w-50">Nome</th>
             <!-- <th>Código</th> -->
-            <th>Ver</th>
+            <th class="text-center w-16">Ação</th>
+            <th class="w-16"></th> <th class="w-16"></th>
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <td>
+              <label for="campo_adicionar_alunos_alfa"></label>
+              <input type="text" name="campo_adicionar_alunos_alfa" class="textfield">
+            </td>
+            <td class="text-center"><button href="#" class="btn btn-sm btn-outline-success btn_add_alunos" id="alfa">✚ Adicionar Aluno</button></td>
+            <td></td> <td></td>
+          </tr>
           <% alunosAlfa.forEach(aluno=> { %>
             <tr>
-              <td><%= aluno.nome %></td>
+              <td><%= aluno.nome %></td> 
               <!-- <td><%= aluno.codigo %></td> -->
-              <td><a href="/alunos/<%= aluno.id_aluno %>" class="btn btn-sm btn-outline-primary">🔎 Ver</a></td>
+              <td class="text-center"><a href="/alunos/<%= aluno.id_aluno %>" class="btn btn-sm btn-outline-secondary">🔎 Ver</a></td>
+              <td class="text-center"><a href="#" class="btn btn-sm btn-outline-primary">✏️ Editar</a></td>
+              <td class="text-center"><a href="#" class="btn btn-sm btn-outline-danger">❌ Remover</a></td>
             </tr>
           <% }) %>
         </tbody>
@@ -121,19 +138,28 @@
       <table class="table table-striped table-hover align-middle">
         <thead class="table-secondary">
           <tr>
-            
-            <th>Nome</th>
+            <th class="w-50">Nome</th>
             <!-- <th>Código</th> -->
-            <th>Ver</th>
+            <th class="text-center w-16">Ação</th>
+            <th class="w-16"></th> <th class="w-16"></th>
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <td>
+              <label for="campo_adicionar_alunos_beta"></label>
+              <input type="text" name="campo_adicionar_alunos_beta" class="textfield">
+            </td>
+            <td class="text-center"><a href="#" class="btn btn-sm btn-outline-success btn_add_alunos" id="beta">✚ Adicionar Aluno</a></td>
+            <td></td> <td></td>
+          </tr>
           <% alunosBeta.forEach(aluno=> { %>
             <tr>
-             
               <td><%= aluno.nome %></td>
               <!-- <td><%= aluno.codigo %></td> -->
-              <td><a href="/alunos/<%= aluno.id_aluno %>" class="btn btn-sm btn-outline-primary">🔎 Ver</a></td>
+              <td class="text-center"><a href="/alunos/<%= aluno.id_aluno %>" class="btn btn-sm btn-outline-secondary">🔎 Ver</a></td>
+              <td class="text-center"><a href="#" class="btn btn-sm btn-outline-primary">✏️ Editar</a></td>
+              <td class="text-center"><a href="#" class="btn btn-sm btn-outline-danger">❌ Remover</a></td>
             </tr>
           <% }) %>
         </tbody>
@@ -142,5 +168,6 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/escola.js"></script>
 </body>
 </html>
