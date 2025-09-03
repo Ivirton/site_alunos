@@ -70,11 +70,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-<<<<<<< HEAD
-          <li class="nav-item"><a class="nav-link active" href="/">Dashboard</a></li>
-=======
-           <li class="nav-item"><a class="nav-link" href="/">Dashboard</a></li>
->>>>>>> 2df8afcefa674aafa96142a69ab406796d7c2d60
+          <li class="nav-item"><a class="nav-link" href="/">Dashboard</a></li>
           <li class="nav-item"><a class="nav-link" href="/escolas">Escolas</a></li>
           <li class="nav-item"><a class="nav-link active" href="/alunos">Alunos</a></li>
           <li class="nav-item"><a class="nav-link" href="/sobre">Sobre</a></li>
@@ -124,13 +120,15 @@
 
           <div style="display: flex; justify-content: center;align-items: center;">
             
-              <% const totais=jason_questoes.totais; %>
+              <% const totais = jason_questoes != null ? jason_questoes.totais : 
+                {acertos: 0, erros : 0, anuladas : 0, total_questoes : 0}; 
+              %>
                 <div class="col-md-2 mb-2">
                   <div class="card bg-success text-white">
                     <div class="card-body py-2">
                       <h6>Acertos</h6>
                       <p class="fs-4 mb-0">
-                        <%= totais.acertos %>
+                        <%= totais != null ? totais.acertos : 0.00 %>
                       </p>
                     </div>
                   </div>
@@ -140,7 +138,7 @@
                     <div class="card-body py-2">
                       <h6>Erros</h6>
                       <p class="fs-4 mb-0">
-                        <%= totais.erros %>
+                        <%= totais != null ? totais.erros  : 0.00 %>
                       </p>
                     </div>
                   </div>
@@ -150,7 +148,7 @@
                     <div class="card-body py-2">
                       <h6>Anuladas</h6>
                       <p class="fs-4 mb-0">
-                        <%= totais.anuladas %>
+                        <%=  totais != null ? totais.anuladas : 0.00 %>
                       </p>
                     </div>
                   </div>
@@ -160,7 +158,7 @@
                     <div class="card-body py-2">
                       <h6>Total</h6>
                       <p class="fs-4 mb-0">
-                        <%= totais.total_questoes %>
+                        <%=  totais != null ? totais.total_questoes : 0.00 %>
                       </p>
                     </div>
                   </div>
@@ -182,25 +180,23 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <% Object.entries(jason_questoes.questoes).forEach(([num, questao])=> { %>
-                      <tr class="<%= questao.status === 'acerto' ? 'table-success' : 
-                  questao.status === 'erro' ? 'table-danger' :
-                  questao.status === 'anulada' ? 'table-secondary' :
-                  questao.status === 'em_branco' ? 'table-warning' : '' %>">
-                        <td>
-                          <%= num %>
-                        </td>
-                        <td>
-                          <%= questao.marcada || '-' %>
-                        </td>
-                        <td>
-                          <%= questao.correta %>
-                        </td>
-                        <td>
-                          <%= questao.status %>
-                        </td>
-                      </tr>
-                      <% }) %>
+                    <% if (jason_questoes && jason_questoes.questoes) { %>
+                        <% Object.entries(jason_questoes.questoes).forEach(([num, questao]) => { %>
+                          <tr class="<%= questao.status === 'acerto' ? 'table-success' : 
+                                          questao.status === 'erro' ? 'table-danger' :
+                                          questao.status === 'anulada' ? 'table-secondary' :
+                                          questao.status === 'em_branco' ? 'table-warning' : '' %>">
+                            <td><%= num %></td>
+                            <td><%= questao.marcada || '-' %></td>
+                            <td><%= questao.correta %></td>
+                            <td><%= questao.status %></td>
+                          </tr>
+                        <% }) %>
+                      <% } else { %>
+                        <tr>
+                          <td colspan="4">Nenhuma questão encontrada</td>
+                        </tr>
+                      <% } %>
                   </tbody>
                 </table>
                 
