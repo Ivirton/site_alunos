@@ -49,7 +49,7 @@ exports.adicionarAluno = (req, res) => {
 
   const novoAluno = {
     nome: req.body.nome,
-    codigo: Math.floor(100000000000 + Math.random() * 900000000000),
+    codigo: String(Math.floor(100000000000 + Math.random() * 900000000000)),
     nivel_prova: req.body.nivel_prova,
     descricao_necessidade: req.body.descricao_necessidade,
     id_escola: id
