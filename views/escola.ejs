@@ -37,7 +37,7 @@
     .textfield{
       background-color: rgba(154, 154, 154, 0.01);
       height: 35px;
-      width: 85%;
+      width: 50.7%;
       border-radius: 6px;
     }
   </style>
@@ -110,12 +110,13 @@
         </thead>
         <tbody>
           <tr>
-            <td>
-              <label for="campo_adicionar_alunos_alfa"></label>
-              <input type="text" name="campo_adicionar_alunos_alfa" class="textfield">
+            <td colspan="4">
+              <form action="/escolas/<%=escola.id_escola%>/alunos/add" method="POST" class="d-flex align-items-center gap-5">
+                <input type="text" name="nome" class="textfield" placeholder="Nome do Aluno" required>
+                <input type="hidden" name="nivel_prova" value="Alfa">
+                <button type="submit" class="btn btn-sm btn-outline-success btn_add_alunos" id="alfa">✚ Adicionar Aluno</button>
+              </form>
             </td>
-            <td class="text-center"><button href="#" class="btn btn-sm btn-outline-success btn_add_alunos" id="alfa">✚ Adicionar Aluno</button></td>
-            <td></td> <td></td>
           </tr>
           <% alunosAlfa.forEach(aluno=> { %>
             <tr>
@@ -123,7 +124,7 @@
               <!-- <td><%= aluno.codigo %></td> -->
               <td class="text-center"><a href="/alunos/<%= aluno.id_aluno %>" class="btn btn-sm btn-outline-secondary">🔎 Ver</a></td>
               <td class="text-center"><a href="#" class="btn btn-sm btn-outline-primary">✏️ Editar</a></td>
-              <td class="text-center"><a href="#" class="btn btn-sm btn-outline-danger">❌ Remover</a></td>
+              <td class="text-center"><a href="#" class="btn btn-sm btn-outline-danger botao_remover" data-codigo="<%=aluno.codigo%>">❌ Remover</a></td>
             </tr>
           <% }) %>
         </tbody>
@@ -146,20 +147,21 @@
         </thead>
         <tbody>
           <tr>
-            <td>
-              <label for="campo_adicionar_alunos_beta"></label>
-              <input type="text" name="campo_adicionar_alunos_beta" class="textfield">
+            <td colspan="4">
+              <form action="/escolas/<%=escola.id_escola%>/alunos/add" method="POST" class="d-flex align-items-center gap-5">
+                <input type="text" name="nome" class="textfield" placeholder="Nome do Aluno" required>
+                <input type="hidden" name="nivel_prova" value="Beta">
+                <button type="submit" class="btn btn-sm btn-outline-success btn_add_alunos" id="beta">✚ Adicionar Aluno</button>
+              </form>
             </td>
-            <td class="text-center"><a href="#" class="btn btn-sm btn-outline-success btn_add_alunos" id="beta">✚ Adicionar Aluno</a></td>
-            <td></td> <td></td>
           </tr>
           <% alunosBeta.forEach(aluno=> { %>
             <tr>
               <td><%= aluno.nome %></td>
               <!-- <td><%= aluno.codigo %></td> -->
-              <td class="text-center"><a href="/alunos/<%= aluno.id_aluno %>" class="btn btn-sm btn-outline-secondary">🔎 Ver</a></td>
+              <td class="text-center"><a href="/alunos/<%= aluno.id_aluno%>" class="btn btn-sm btn-outline-secondary">🔎 Ver</a></td>
               <td class="text-center"><a href="#" class="btn btn-sm btn-outline-primary">✏️ Editar</a></td>
-              <td class="text-center"><a href="#" class="btn btn-sm btn-outline-danger">❌ Remover</a></td>
+              <td class="text-center"><a href="#" class="btn btn-sm btn-outline-danger botao_remover" data-codigo="<%=aluno.codigo%>">❌ Remover</a></td>
             </tr>
           <% }) %>
         </tbody>
@@ -168,6 +170,63 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="/js/escola.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+  document.querySelectorAll("form").forEach(form => {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault(); 
+      
+      Swal.fire({
+        title: "Tem certeza que deseja adicionar o aluno?",
+        showCancelButton: true,
+        confirmButtonText: "Sim",
+        cancelButtonText: "Não",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          form.submit();
+        }
+      });
+    });
+  });
+  </script>
+
+  <script>
+    document.querySelectorAll(".botao_remover").forEach(btn => {
+      btn.addEventListener("click", async (e) => {
+        e.preventDefault(); 
+
+        const result = await Swal.fire({
+          title: "Tem certeza que deseja remover o aluno?",
+          showCancelButton: true,
+          confirmButtonText: "Sim",
+          cancelButtonText: "Não",
+        });
+
+        if(result.isConfirmed) {
+          const codigo = `${Math.floor(btn.dataset.codigo)}`;
+
+          try {
+            const res = await fetch(`/escolas/alunos/${codigo}/delete`, { method: "DELETE" });
+
+            if(res.ok){
+              Swal.fire("Aluno removido!", "", "success");
+              const tr = btn.closest("tr");
+              tr.remove();
+            } 
+            
+            else{
+              Swal.fire("Erro ao remover aluno", "", "error");
+            }
+          } 
+          
+          catch(err){
+            console.error(err);
+            Swal.fire("Erro de conexão", "", "error");
+          }
+        }
+      });
+    });
+  </script>
 </body>
 </html>

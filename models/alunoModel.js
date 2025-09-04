@@ -1,6 +1,14 @@
 const db = require("../config/db");
 
 class Aluno {
+  constructor(nome, codigo, nivel_prova, descricao_necessidade, id_escola){
+    this.nome = nome;
+    this.codigo = codigo;
+    this.nivel_prova = nivel_prova;
+    this.descricao_necessidade = descricao_necessidade;
+    this.id_escola = id_escola;
+  }
+
   static listar(callback) {
     db.all("SELECT * FROM Aluno", [], callback);
   }
@@ -37,6 +45,38 @@ class Aluno {
       callback(err, rows || []);
     });
   }
+
+  static adicionar(aluno, callback){
+    db.run(`
+      INSERT INTO Aluno (nome, codigo, nivel_prova, descricao_necessidade, id_escola)
+      VALUES (?, ?, ?, ?, ?)`, 
+      [aluno.nome, aluno.codigo, aluno.nivel_prova, aluno.descricao_necessidade, aluno.id_escola],
+      function (err){
+        if(err) {
+          console.log("Erro ao inserir o aluno!");
+          callback(err);
+        }
+
+        else{
+          console.log("Id adicionado: ", this.lastID);
+          callback(null, this.lastID);
+        }
+      }
+    );
+  } 
+
+static deletar(codigo, callback) {
+  db.run("DELETE FROM Aluno WHERE codigo = ?", [codigo], function(err) {
+    if (err) {
+      console.log("Erro ao remover o aluno!");
+      return callback(err);
+    }
+
+    console.log("Linhas removidas: ", this.changes);
+    callback(null, this.changes); 
+  });
+}
+
 }
 
 module.exports = Aluno;

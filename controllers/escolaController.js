@@ -31,6 +31,7 @@ exports.verEscola = (req, res) => {
     });
   });
 };
+
 exports.listarEscolas = (req, res) => {
   Escola.listar((err, escolas) => {
     
@@ -38,5 +39,39 @@ exports.listarEscolas = (req, res) => {
     console.log(escolas);
     res.render("escolas", { escolas });
     // res.json(escolas);
+  });
+};
+
+const Aluno = require("../models/alunoModel");
+
+exports.adicionarAluno = (req, res) => {
+  const { id } = req.params; 
+
+  const novoAluno = {
+    nome: req.body.nome,
+    codigo: Math.floor(100000000000 + Math.random() * 900000000000),
+    nivel_prova: req.body.nivel_prova,
+    descricao_necessidade: req.body.descricao_necessidade,
+    id_escola: id
+  };
+
+  Aluno.adicionar(novoAluno, (err, alunoId) => {
+    if (err) return res.status(500).send("Erro ao adicionar o aluno.");
+    console.log("Aluno criado:", alunoId);
+    res.redirect(`/escolas/${id}`);
+  });
+}
+
+exports.deletarAluno = (req, res) => {
+  const { codigo } = req.params;       
+
+  Aluno.deletar(codigo, (err, id_aluno) => {
+    if(err) {
+      console.log(err);
+      return res.status(500).send("Erro ao remover o aluno.");
+    }
+    
+    console.log("Id do aluno removido: ", id_aluno);
+    res.sendStatus(200); 
   });
 };
