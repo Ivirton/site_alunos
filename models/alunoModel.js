@@ -65,18 +65,31 @@ class Aluno {
     );
   } 
 
-static deletar(codigo, callback) {
-  db.run("DELETE FROM Aluno WHERE codigo = ?", [codigo], function(err) {
-    if (err) {
-      console.log("Erro ao remover o aluno!");
-      return callback(err);
-    }
+  static deletar(codigo, callback) {
+    db.run("DELETE FROM Aluno WHERE codigo = ?", [codigo], function(err) {
+      if (err) {
+        console.log("Erro ao remover o aluno!");
+        return callback(err);
+      }
 
-    console.log("Linhas removidas: ", this.changes);
-    callback(null, this.changes); 
-  });
-}
+      console.log("Linhas removidas: ", this.changes);
+      callback(null, this.changes); 
+    });
+  }
 
+  static editar(id_aluno, novo_nome, callback){
+    db.run("UPDATE Aluno SET nome = ? WHERE id_aluno = ?", [novo_nome, id_aluno], 
+      function(err){
+        if (err) {
+          console.log("Erro ao editar o nome!");
+          return callback(err);
+        }
+
+        console.log("Edição feita? ", this.changes == 1);
+        callback(null, this.changes); 
+      }
+    );
+  }
 }
 
 module.exports = Aluno;

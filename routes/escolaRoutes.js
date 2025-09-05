@@ -7,6 +7,8 @@ router.get('/', escolaController.listarEscolas);
 
 router.post("/:id/alunos/add", escolaController.adicionarAluno);
 
-router.delete("/alunos/:codigo/delete", escolaController.deletarAluno);
+router.patch("/alunos/:id_aluno/edit", escolaController.editarNomeAluno);
+
+router.delete("/:id/alunos/:codigo/delete", escolaController.deletarAluno);
 
 module.exports = router;

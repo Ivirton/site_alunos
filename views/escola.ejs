@@ -40,6 +40,10 @@
       width: 50.7%;
       border-radius: 6px;
     }
+
+    .textfield-hidden{
+      border: 0;
+    }
   </style>
 </head>
 
@@ -120,11 +124,11 @@
           </tr>
           <% alunosAlfa.forEach(aluno=> { %>
             <tr>
-              <td><%= aluno.nome %></td> 
+              <td><input type="text" class="textfield textfield-hidden" value="<%= aluno.nome %>" style="width: 80%;"></td> 
               <!-- <td><%= aluno.codigo %></td> -->
               <td class="text-center"><a href="/alunos/<%= aluno.id_aluno %>" class="btn btn-sm btn-outline-secondary">🔎 Ver</a></td>
-              <td class="text-center"><a href="#" class="btn btn-sm btn-outline-primary">✏️ Editar</a></td>
-              <td class="text-center"><a href="#" class="btn btn-sm btn-outline-danger botao_remover" data-codigo="<%=aluno.codigo%>">❌ Remover</a></td>
+              <td class="text-center"><a href="#" class="btn btn-sm btn-outline-primary  botao_editar" data-id="<%=aluno.id_aluno%>" data-nome="<%=aluno.nome%>">✏️ Editar</a></td>
+              <td class="text-center"><a href="#" class="btn btn-sm btn-outline-danger botao_remover" data-codigo="<%=aluno.codigo%>" data-id="<%=escola.id_escola%>">❌ Remover</a></td>
             </tr>
           <% }) %>
         </tbody>
@@ -157,11 +161,11 @@
           </tr>
           <% alunosBeta.forEach(aluno=> { %>
             <tr>
-              <td><%= aluno.nome %></td>
+              <td><input type="text" class="textfield textfield-hidden" value="<%= aluno.nome %>" style="width: 80%;"></td> 
               <!-- <td><%= aluno.codigo %></td> -->
               <td class="text-center"><a href="/alunos/<%= aluno.id_aluno%>" class="btn btn-sm btn-outline-secondary">🔎 Ver</a></td>
-              <td class="text-center"><a href="#" class="btn btn-sm btn-outline-primary">✏️ Editar</a></td>
-              <td class="text-center"><a href="#" class="btn btn-sm btn-outline-danger botao_remover" data-codigo="<%=aluno.codigo%>">❌ Remover</a></td>
+              <td class="text-center"><a href="#" class="btn btn-sm btn-outline-primary botao_editar" data-id="<%=aluno.id_aluno%>" data-nome="<%aluno.nome%>">✏️ Editar</a></td>
+              <td class="text-center"><a href="#" class="btn btn-sm btn-outline-danger botao_remover" data-codigo="<%=aluno.codigo%>" data-id="<%=escola.id_escola%>">❌ Remover</a></td>
             </tr>
           <% }) %>
         </tbody>
@@ -171,62 +175,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-  <script>
-  document.querySelectorAll("form").forEach(form => {
-    form.addEventListener("submit", (e) => {
-      e.preventDefault(); 
-      
-      Swal.fire({
-        title: "Tem certeza que deseja adicionar o aluno?",
-        showCancelButton: true,
-        confirmButtonText: "Sim",
-        cancelButtonText: "Não",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          form.submit();
-        }
-      });
-    });
-  });
-  </script>
-
-  <script>
-    document.querySelectorAll(".botao_remover").forEach(btn => {
-      btn.addEventListener("click", async (e) => {
-        e.preventDefault(); 
-
-        const result = await Swal.fire({
-          title: "Tem certeza que deseja remover o aluno?",
-          showCancelButton: true,
-          confirmButtonText: "Sim",
-          cancelButtonText: "Não",
-        });
-
-        if(result.isConfirmed) {
-          const codigo = `${Math.floor(btn.dataset.codigo)}`;
-
-          try {
-            const res = await fetch(`/escolas/alunos/${codigo}/delete`, { method: "DELETE" });
-
-            if(res.ok){
-              Swal.fire("Aluno removido!", "", "success");
-              const tr = btn.closest("tr");
-              tr.remove();
-            } 
-            
-            else{
-              Swal.fire("Erro ao remover aluno", "", "error");
-            }
-          } 
-          
-          catch(err){
-            console.error(err);
-            Swal.fire("Erro de conexão", "", "error");
-          }
-        }
-      });
-    });
-  </script>
+  <script src="/js/escola.js"></script>
 </body>
 </html>

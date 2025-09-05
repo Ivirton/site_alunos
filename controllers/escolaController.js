@@ -63,7 +63,7 @@ exports.adicionarAluno = (req, res) => {
 }
 
 exports.deletarAluno = (req, res) => {
-  const { codigo } = req.params;       
+  const { id, codigo } = req.params;   
 
   Aluno.deletar(codigo, (err, id_aluno) => {
     if(err) {
@@ -75,3 +75,18 @@ exports.deletarAluno = (req, res) => {
     res.sendStatus(200); 
   });
 };
+
+exports.editarNomeAluno = (req, res) => {
+  const { id_aluno } = req.params;
+  const { novo_nome } = req.body;
+
+  Aluno.editar(id_aluno, novo_nome, (err, _) => {
+    if(err) {
+      console.log(err);
+      return res.status(500).send("Erro ao editar o nome.");
+    }
+    
+    console.log("Id do aluno: ", id_aluno);
+    res.sendStatus(200); 
+  });
+}
